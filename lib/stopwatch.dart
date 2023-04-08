@@ -4,97 +4,81 @@ import 'package:flutter/material.dart';
 import 'package:tugas4/login.dart';
 
 class StopwatchPage extends StatefulWidget {
+  const StopwatchPage({Key? key}) : super(key: key);
+
   @override
-  _StopwatchPageState createState() => _StopwatchPageState();
+  State<StopwatchPage> createState() => _StopwatchPageState();
 }
 
 class _StopwatchPageState extends State<StopwatchPage> {
+  static const duration = Duration(seconds: 1);
 
-  late Stopwatch stopwatch;
-  late Timer t;
+  int secondsPassed = 0;
+  bool isActive = false;
 
-  void handleStartStop() {
-    if(stopwatch.isRunning) {
-      stopwatch.stop();
+  Timer? timer;
+
+  void handleTick() {
+    if (isActive) {
+      setState(() {
+        secondsPassed = secondsPassed + 1;
+      });
     }
-    else {
-      stopwatch.start();
-    }
-  }
-
-  String returnFormattedText() {
-    var milli = stopwatch.elapsed.inMilliseconds;
-
-    String milliseconds = (milli % 1000).toString().padLeft(3, "0");
-    String seconds = ((milli ~/ 1000) % 60).toString().padLeft(2, "0");
-    String minutes = ((milli ~/ 1000) ~/ 60).toString().padLeft(2, "0");
-
-    return "$minutes:$seconds:$milliseconds";
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    stopwatch = Stopwatch();
-
-    t = Timer.periodic(Duration(milliseconds: 30), (timer) {
-      setState(() {});
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (timer == null) {
+      timer = Timer.periodic(duration, (Timer t) {
+        handleTick();
+      });
+    }
+
+    int sec = secondsPassed % 60;
+    int min = secondsPassed ~/ 60;
+    int hrs = secondsPassed ~/ (60 * 60);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Stopwatch'),
         backgroundColor: Colors.teal,
       ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              CupertinoButton(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                LabelText(
+                    label: 'HRS',
+                    value: hrs.toString().padLeft(2, '0')),
+                LabelText(
+                    label: 'MIN',
+                    value: min.toString().padLeft(2, '0')),
+                LabelText(
+                    label: 'SEC',
+                    value: sec.toString().padLeft(2, '0')),
+              ],
+            ),
+            SizedBox(height: 60),
+            Container(
+              width: 200,
+              height: 47,
+              margin: EdgeInsets.only(top: 30),
+              child: RaisedButton(
+                color: Colors.red,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25)),
+                child: Text(isActive ? 'STOP' : 'START'),
                 onPressed: () {
-                  handleStartStop();
+                  setState(() {
+                    isActive = !isActive;
+                  });
                 },
-                padding: const EdgeInsets.all(0),
-                child: Container(
-                  height: 250,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Colors.teal,
-                      width: 4,
-                    ),
-                  ),
-                  child: Text(
-                    returnFormattedText(),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
               ),
-              const SizedBox(height: 30),
-              CupertinoButton(
-                onPressed: () {
-                  stopwatch.reset();
-                },
-                padding: const EdgeInsets.all(0),
-                child: const Text(
-                  "Reset",
-                  style: TextStyle(
-                  color: Colors.red,
-                  fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -108,6 +92,41 @@ class _StopwatchPageState extends State<StopwatchPage> {
         tooltip: 'Logout',
         child: const Icon(Icons.logout_rounded),
         backgroundColor: Colors.teal,
+      ),
+    );
+  }
+}
+
+class LabelText extends StatelessWidget {
+  LabelText({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      padding: EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        color: Colors.teal,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            '$value',
+            style: TextStyle(
+                color: Colors.white, fontSize: 55, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            '$label',
+            style: TextStyle(
+              color: Colors.white70,
+            ),
+          ),
+        ],
       ),
     );
   }

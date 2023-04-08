@@ -26,7 +26,7 @@ class GuidePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Anda dapat mengenal kami lebih dekat disini!',
+              'Berisi Nama dan NIM dari anggota kelompok.',
               style: TextStyle(
                   fontSize: 16,
                   height: 1.4
@@ -42,7 +42,7 @@ class GuidePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              'Tekan area pada lingkaran untuk memulai atau menjeda stopwatch. Dan tekan reset untuk menyetel ulang stopwatch',
+              'Tekan button start/stop untuk memulai atau menjeda stopwatch.',
               style: TextStyle(
                   fontSize: 16,
                   height: 1.4
