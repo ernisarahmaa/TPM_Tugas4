@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'TPM Tugas 4',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
+        fontFamily: 'Poppins-Regular',
       ),
       home: const LoginPage(),
     );

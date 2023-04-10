@@ -5,6 +5,7 @@ import 'package:tugas4/login.dart';
 import 'package:tugas4/profile.dart';
 import 'package:tugas4/stopwatch.dart';
 import 'package:tugas4/situs.dart';
+import 'package:tugas4/favorite.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -106,12 +107,12 @@ class _LandingPageState extends State<LandingPage> {
               minWidth: 200,
               height: 42,
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const FavoritePage(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoritePage(),
+                  ),
+                );
               },
               color: Colors.teal,
               child: const Text('Favorite',

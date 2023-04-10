@@ -3,15 +3,20 @@ import 'package:tugas4/data_situs.dart';
 import 'package:image_network/image_network.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class DetailSitus extends StatelessWidget {
+class DetailSitus extends StatefulWidget {
   final DataSitus website;
   const DetailSitus({Key? key, required this.website}) : super(key: key);
 
   @override
+  _DetailSitusState createState() => _DetailSitusState();
+}
+
+class _DetailSitusState extends State<DetailSitus> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(website.title),
+        title: Text(widget.website.title),
         backgroundColor: Colors.teal,
       ),
       body: SingleChildScrollView(
@@ -30,14 +35,14 @@ class DetailSitus extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 1,
                     child: ImageNetwork(
-                      image: website.imageLink,
+                      image: widget.website.imageLink,
                       width : 300,
                       height: 300,
                     ),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Container(
@@ -45,32 +50,32 @@ class DetailSitus extends StatelessWidget {
                   color: Colors.teal,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      website.title,
-                      style: TextStyle(
+                      widget.website.title,
+                      style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "Developer: " + website.developer,
-                      style: TextStyle(
+                      "Developer: " + widget.website.developer,
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text(
+                    const Text(
                       "Description",
                       style: TextStyle(
                         fontSize: 24,
@@ -78,12 +83,12 @@ class DetailSitus extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      website.description,
-                      style: TextStyle(
+                      widget.website.description,
+                      style: const TextStyle(
                         fontSize: 15,
                         color: Colors.white,
                       ),
@@ -91,39 +96,76 @@ class DetailSitus extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    launch(website.link);
-                  },
-                  child: Text(
-                    'Visit Website',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _launchUrl(widget.website.link);
+                      },
+                      child: const Text(
+                        'Visit Website',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.teal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 30,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.teal,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 30,
-                      vertical: 30,
+                    const SizedBox(
+                      width: 20,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        setState(() {
+                          widget.website.isFavorite = !widget.website.isFavorite;
+                        });
+                      },
+                      child: Text(
+                        widget.website.isFavorite ? 'Delete from Favorite' : 'Add to Favorite',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: widget.website.isFavorite ? Colors.red : Colors.teal,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 30,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              )
-
-
+                  ]
+                )
+              ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl(String url) async {
+    final Uri _url = Uri.parse(url);
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }

@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:tugas4/data_situs.dart';
-import 'package:tugas4/detail_situs.dart';
 import 'package:image_network/image_network.dart';
+import 'package:tugas4/detail_situs.dart';
 
-class SitusPage extends StatelessWidget {
-  const SitusPage({Key? key}) : super(key: key);
+class FavoritePage extends StatelessWidget {
+  const FavoritePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final favorite = listSitus.where((website) => website.isFavorite).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Situs Rekomendasi"),
+        title: const Text("Favorite"),
         automaticallyImplyLeading: true,
         backgroundColor: Colors.teal,
       ),
       body: ListView.builder(
-        itemCount: listSitus.length,
+        itemCount: favorite.length,
         itemBuilder: (context, index) {
-          final DataSitus website = listSitus[index];
+          final DataSitus website = favorite[index];
           return InkWell(
             onTap: (){
               Navigator.push(context,
@@ -34,16 +36,6 @@ class SitusPage extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child:GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DetailSitus(
-                              website: website,
-                            ),
-                          ),
-                        );
-                      },
                       child: ImageNetwork(
                         image: website.imageLink,
                         height: 200,
