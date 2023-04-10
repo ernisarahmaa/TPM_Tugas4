@@ -50,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 30),
                   const CircleAvatar(
                     backgroundImage: AssetImage(
-                        'assets/caca.jpg'
+                        'assets/dinda.jpg'
                     ),
                     radius: 50,
                   ),

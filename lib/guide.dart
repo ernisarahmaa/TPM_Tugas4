@@ -58,7 +58,7 @@ class GuidePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              '',
+              'Temukan rekomendasi situs pomodoro timer. Pomodoro merupakan sebuah metode manajemen waktu belajar.',
               style: TextStyle(
                   fontSize: 16,
                   height: 1.4
@@ -74,7 +74,7 @@ class GuidePage extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              '',
+              'Anda dapat menandai situs pomodoro timer favorit anda melalui fitur bookmark yang tersedia.',
               style: TextStyle(
                   fontSize: 16,
                   height: 1.4

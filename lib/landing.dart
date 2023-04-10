@@ -4,6 +4,7 @@ import 'package:tugas4/guide.dart';
 import 'package:tugas4/login.dart';
 import 'package:tugas4/profile.dart';
 import 'package:tugas4/stopwatch.dart';
+import 'package:tugas4/situs.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -84,12 +85,12 @@ class _LandingPageState extends State<LandingPage> {
               minWidth: 200,
               height: 42,
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const SitusPage(),
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SitusPage(),
+                  ),
+                );
               },
               color: Colors.teal,
               child: const Text('Situs Rekomendasi',
